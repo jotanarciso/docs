@@ -1,47 +1,45 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: Quickstart
+description: Verify your API key and fetch your first campaign list.
 ---
-
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
 
 ## Prerequisites
 
-Before you begin, you must have:
+- An API key (`sk_*`) issued for your organization
+- `PUBLIC_API_ENABLED` turned on for your org (Soundlink Engineering)
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+## 1. Ping (connectivity)
 
-## Get started
+```bash
+curl -sS 'https://api.getsoundlink.com/v1/ping' \
+  -H 'x-api-key: sk_YOUR_PREFIX_YOUR_SECRET'
+```
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+Expected:
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+```json
+{
+  "data": { "status": "ok" },
+  "meta": { "requestId": "..." }
+}
+```
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+Ping accepts any valid key scope (`campaigns:read` and/or `metrics:read`).
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+## 2. List campaigns
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+```bash
+curl -sS 'https://api.getsoundlink.com/v1/campaigns?page=1&pageSize=10' \
+  -H 'x-api-key: sk_YOUR_PREFIX_YOUR_SECRET'
+```
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+Requires the `campaigns:read` scope on your key.
+
+## 3. Use requestId for support
+
+If something fails, include `meta.requestId` from the error response when contacting Soundlink support.
+
+## Next steps
+
+- [Authentication](/authentication) — scopes and key handling
+- [API Reference](/api-reference) — full endpoint list (generated from OpenAPI)
